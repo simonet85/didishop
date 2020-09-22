@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\User;
 use App\Order;
-class UsersController extends Controller
-{
-  
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
+class UserProfileController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -17,38 +16,10 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index')->with('users', $users);
+        $id = auth()->user()->id; // get the id of the authenticated user
+        $user = User::where('id', $id)->first(); // fetch data of the authenticated user
+        return view('front.profile.index')->with('user', $user);
     }
-
-     /**
-     * Block user .
-     *
-     * @return a boolean
-     */
-    public function block($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 1]);
-        Session::flash('success', 'User has been blocked.');
-        return redirect('admin/users');
-        dd($id);
-    }
-
-         /**
-     * Unblock user .
-     *
-     * @return a boolean
-     */
-    public function unblock($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 0]);
-        Session::flash('success', 'User has been unblocked.');
-        return redirect('admin/users');
-        // dd($id);
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -79,8 +50,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::where('user_id',$id)->get();
-        return view('admin.users.details')->with('orders', $orders);
+        $order = Order::find($id);
+        return view('front.profile.details')->with('order', $order);
     }
 
     /**

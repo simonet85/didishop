@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use App\User;
-use App\Order;
-class UsersController extends Controller
-{
-  
+use App\Http\Controllers\Controller;
 
+class SessionController extends Controller
+{
+      /**
+     * Applying middleware
+     */
+
+    public function __construct(){
+        $this->middleware('guest')->except('logout');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,38 +21,20 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index')->with('users', $users);
+        return view('front.session.login');
     }
 
-     /**
-     * Block user .
+    /**
+     * Logout the users.
      *
-     * @return a boolean
+     * @return \Illuminate\Http\Response
      */
-    public function block($id)
+    public function logout()
     {
-        $users = User::find($id);
-        $users->update(['status'=> 1]);
-        Session::flash('success', 'User has been blocked.');
-        return redirect('admin/users');
-        dd($id);
+        auth()->logout();
+        session()->flash('success', 'You have been logout successfully !');
+        return redirect('/user/login');
     }
-
-         /**
-     * Unblock user .
-     *
-     * @return a boolean
-     */
-    public function unblock($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 0]);
-        Session::flash('success', 'User has been unblocked.');
-        return redirect('admin/users');
-        // dd($id);
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -57,7 +43,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        // 
     }
 
     /**
@@ -68,7 +54,20 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "email"=>"required|email",
+            "password"=>"required|min:6"
+        ]);
+
+        //Check if the user exist
+        $data = request(['email', 'password']) ;
+
+        //Check if the user is a guest
+        if (!auth()->attempt($data)) {
+            return back()->withErrors("success", "user not found");
+        }
+        session()->flash('success', 'Welcome you have been successfully logged in !');
+        return redirect('user/profile');
     }
 
     /**
@@ -79,8 +78,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::where('user_id',$id)->get();
-        return view('admin.users.details')->with('orders', $orders);
+        //
     }
 
     /**

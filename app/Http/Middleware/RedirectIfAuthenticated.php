@@ -30,7 +30,7 @@ class RedirectIfAuthenticated
             default:
                 # front end
                 if (Auth::guard($guard)->check()) {
-                    return redirect('/user/profil');
+                    return redirect('/user/profile');
                 }
                 break;
         }

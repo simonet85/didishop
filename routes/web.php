@@ -47,4 +47,15 @@ Route::prefix('admin')->group(function(){
  * Front Route
  */
 
-
+ Route::get('/', 'Front\HomeController@index')->name('home');
+ // User Registration
+Route::get('/user/register','Front\RegistrationController@index');
+Route::post('/user/register','Front\RegistrationController@store');
+//User Login
+Route::get('/user/login', 'Front\SessionController@index');
+Route::post('/user/login','Front\SessionController@store');
+//User Logout
+Route::get('/user/logout', 'Front\SessionController@logout');
+//User profile
+ Route::get('user/profile', 'Front\UserProfileController@index');
+ Route::get('user/order/{id}', 'Front\UserProfileController@show')->name('user.order');

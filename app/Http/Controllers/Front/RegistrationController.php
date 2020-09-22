@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
 use App\User;
-use App\Order;
-class UsersController extends Controller
-{
-  
 
+class RegistrationController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -17,38 +15,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index')->with('users', $users);
+        return view('front.registration.index');
     }
-
-     /**
-     * Block user .
-     *
-     * @return a boolean
-     */
-    public function block($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 1]);
-        Session::flash('success', 'User has been blocked.');
-        return redirect('admin/users');
-        dd($id);
-    }
-
-         /**
-     * Unblock user .
-     *
-     * @return a boolean
-     */
-    public function unblock($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 0]);
-        Session::flash('success', 'User has been unblocked.');
-        return redirect('admin/users');
-        // dd($id);
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -68,7 +36,31 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        $request->validate([
+            "name"=>"required|string",
+            "email"=>"email|required",
+            "password"=>"min:6|required|confirmed",
+            "address"=>"required"
+        ]);
+        
+        //Validate input
+        //Store 
+       $user = User::create([
+            "email"=>$request->email,
+            "name"=>$request->name,
+            "password"=>bcrypt($request->password),
+            "address"=>$request->address
+        ]);
+
+        //Let the user in
+        auth()->login($user);
+
+        //Flash message
+        session()->flash('success', 'You\'ve been successfully registered');
+        return redirect('user/profile');
+        
+
     }
 
     /**
@@ -79,8 +71,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::where('user_id',$id)->get();
-        return view('admin.users.details')->with('orders', $orders);
+        //
     }
 
     /**

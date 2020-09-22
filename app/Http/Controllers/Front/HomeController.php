@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use App\User;
-use App\Order;
-class UsersController extends Controller
+use App\Http\Controllers\Controller;
+use App\Product;
+class HomeController extends Controller
 {
-  
-
     /**
      * Display a listing of the resource.
      *
@@ -17,38 +14,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('admin.users.index')->with('users', $users);
+        $products = Product::inRandomOrder()->take(4)->get();
+        return view('front.index')->with('products', $products);
     }
 
-     /**
-     * Block user .
-     *
-     * @return a boolean
-     */
-    public function block($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 1]);
-        Session::flash('success', 'User has been blocked.');
-        return redirect('admin/users');
-        dd($id);
-    }
-
-         /**
-     * Unblock user .
-     *
-     * @return a boolean
-     */
-    public function unblock($id)
-    {
-        $users = User::find($id);
-        $users->update(['status'=> 0]);
-        Session::flash('success', 'User has been unblocked.');
-        return redirect('admin/users');
-        // dd($id);
-    }
-
+   
 
     /**
      * Show the form for creating a new resource.
@@ -79,8 +49,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $orders = Order::where('user_id',$id)->get();
-        return view('admin.users.details')->with('orders', $orders);
+        //
     }
 
     /**
