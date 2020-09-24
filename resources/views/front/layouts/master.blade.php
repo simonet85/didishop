@@ -31,8 +31,22 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-shopping-cart"></i> Cart <strong>(23)</strong>
+                    @if (Cart::instance('default')->count() > 0)
+                        <a class="nav-link" href="/cart">
+                            <i class="fa fa-shopping-cart"></i> Cart
+                             <strong>
+                                {{Cart::instance('default')->count()}}
+                            </strong>
+                        </a>
+                    @else
+                    <a class="nav-link" href="/cart">
+                        <i class="fa fa-shopping-cart"></i> Cart
+                         <strong>
+                           (0)
+                        </strong>
                     </a>
+                    @endif
+                   
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions"

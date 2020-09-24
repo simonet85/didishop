@@ -12,9 +12,10 @@
         <p class="display-4">&nbsp;</p>
         <a href="#" class="btn btn-warning btn-lg float-right">SHOP NOW!</a>
     </header>
-
+    @include('inc.message')
     <!-- Page Features -->
     <div class="row text-center">
+       
         @foreach ($products as $product)
             
         <div class="col-lg-3 col-md-6 mb-4">
@@ -27,9 +28,16 @@
                     </p>
                 </div>
                 <div class="card-footer"> 
-                    <strong>{{$product->productprice}}</strong> &nbsp;
-                    <a href="#" class="btn btn-primary btn-outline-dark"><i class="fa fa-cart-plus "></i> Add To
-                        Cart</a>
+                    <strong>$ {{$product->productprice}}</strong> &nbsp;
+                    <form action="{{route('cart')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$product->id}}" >
+                        <input type="hidden" name="productname" value="{{$product->productname}}">
+                        <input type="hidden" name="productprice" value="{{$product->productprice}}">
+                        <button type="submit" class="btn btn-primary btn-outline-dark">
+                        <i class="fa fa-cart-plus "></i> Add To Cart</button>
+
+                    </form>
                 </div>
             </div>
         </div>

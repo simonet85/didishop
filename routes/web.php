@@ -59,3 +59,15 @@ Route::get('/user/logout', 'Front\SessionController@logout');
 //User profile
  Route::get('user/profile', 'Front\UserProfileController@index');
  Route::get('user/order/{id}', 'Front\UserProfileController@show')->name('user.order');
+ //cart
+ Route::get('/cart', 'Front\CartController@index');
+ Route::post('/cart', 'Front\CartController@store')->name('cart');
+ Route::delete('/cart/remove/{product}', 'Front\CartController@destroy')->name('remove.product');
+ Route::post('/cart/saveforlater/{product}', 'Front\CartController@saveforlater')->name('saveforlater');
+
+ // Save for later
+Route::delete('/saveLater/destroy/{product}','Front\SaveLaterController@destroy')->name('saveLater.destroy');
+Route::post('/cart/moveToCart/{product}','Front\SaveLaterController@moveToCart')->name('moveToCart');
+ Route::get('/empty', function(){
+    Cart::instance('default')->destroy();
+ });
