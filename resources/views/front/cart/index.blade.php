@@ -43,13 +43,16 @@
                                     <button type="submit" class="btn btn-link btn-link-dark">Save for later</button><br>
                                 </form>
 
-
                             </td>
                             
                             <td>
-                                <select name="" id="" class="form-control" style="width: 4.7em">
-                                    <option value="">1</option>
-                                    <option value="">2</option>
+                                <select name="" data-id="{{$item->rowId}}" class="form-control quantity" style="width: 4.7em">
+                                    <option {{$item->qty == 1 ? 'selected': ''}}>1</option>
+                                    <option {{$item->qty == 2 ? 'selected': ''}}>2</option>
+                                    <option {{$item->qty == 3 ? 'selected': ''}}>3</option>
+                                    <option {{$item->qty == 4 ? 'selected': ''}}>4</option>
+                                    <option {{$item->qty == 5 ? 'selected': ''}}>5</option>
+                                    <option {{$item->qty == 6 ? 'selected': ''}}>6</option>
                                 </select>
                             </td>
                             
@@ -134,12 +137,12 @@
                                 </form>
                             </td>
                             
-                            <td>
+                            {{-- <td>
                                 <select name="" id="" class="form-control" style="width: 4.7em">
                                     <option value="">1</option>
                                     <option value="">2</option>
                                 </select>
-                            </td>
+                            </td> --}}
                             
                             <td>$ {{$item->model->productprice}}</td>
                         </tr>
@@ -155,5 +158,42 @@
 
         </div>
         </div>
+        <div class="mt-5"><hr></div>
 <!-- /.container -->
+@endsection
+
+@section('script')
+    <script src="{{asset('js/app.js')}}"></script>
+    <script>
+       const className = document.querySelectorAll('.quantity');
+    //    Array create an array from Array like
+       Array.from(className).forEach(function(el){
+
+            el.addEventListener('change', function (e) {
+
+                e.preventDefault();
+
+                const id = el.getAttribute('data-id');
+               
+                // Make a request for a user with a given ID
+                axios.patch(`/cart/update/${id}`,{
+                    quantity: this.value
+                })
+                .then(function (response) {
+                    // handle success
+                    // console.log(response);
+                    location.reload();
+                   
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+                .then(function () {
+                    // always executed
+                });
+                
+            })
+       });
+    </script>
 @endsection

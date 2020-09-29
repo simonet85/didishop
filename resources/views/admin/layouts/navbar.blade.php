@@ -7,7 +7,7 @@
                 <span class="icon-bar bar2"></span>
                 <span class="icon-bar bar3"></span>
             </button>
-            <a class="navbar-brand" href="#">Dashboard</a>
+            <a class="navbar-brand" href="{{url('/admin')}}">Dashboard</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -19,7 +19,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="#">Profile</a></li>
-                        <li><a href="/admin/logout">Logout</a></li>
+                        <li><a href="{{url('/admin/logout')}}">Logout</a></li>
                     </ul>
                 </li>
             </ul>

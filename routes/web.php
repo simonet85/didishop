@@ -38,7 +38,7 @@ Route::prefix('admin')->group(function(){
         });
 
          //Login
-         Route::get('/login', 'AdminUserController@index');
+         Route::get('/login', 'AdminUserController@index')->name('login');
          Route::post('/login', 'AdminUserController@store')->name('admin.login');
     
 });
@@ -62,6 +62,7 @@ Route::get('/user/logout', 'Front\SessionController@logout');
  //cart
  Route::get('/cart', 'Front\CartController@index');
  Route::post('/cart', 'Front\CartController@store')->name('cart');
+ Route::patch('/cart/update/{product}', 'Front\CartController@update')->name('cart.update');
  Route::delete('/cart/remove/{product}', 'Front\CartController@destroy')->name('remove.product');
  Route::post('/cart/saveforlater/{product}', 'Front\CartController@saveforlater')->name('saveforlater');
 
@@ -71,3 +72,6 @@ Route::post('/cart/moveToCart/{product}','Front\SaveLaterController@moveToCart')
  Route::get('/empty', function(){
     Cart::instance('default')->destroy();
  });
+ //Checkout
+ Route::get('/checkout', 'Front\CheckoutController@index')->name('checkout');
+ Route::post('/checkout', 'Front\CheckoutController@store')->name('checkout.store');

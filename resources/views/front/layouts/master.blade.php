@@ -5,6 +5,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -17,6 +18,8 @@
     {{Html::style('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')}}
     
     {{Html::style('assets/css/heroic-features.css')}}
+
+    @yield('style')
 
 </head>
 
@@ -87,7 +90,7 @@
 {{Html::script('https://code.jquery.com/jquery-3.2.1.slim.min.js')}}
 {{Html::script('https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')}}
 {{Html::script('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')}}
-
+@yield('script')
 </body>
 
 </html>

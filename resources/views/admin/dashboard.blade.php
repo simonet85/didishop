@@ -51,7 +51,7 @@
                     <hr/>
                     <div class="stats">
                         <i class="ti-panel"></i> 
-                        <a href="{{url('/products')}}">Details</a>
+                        <a href="{{url('/admin/products')}}">Details</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <hr/>
                     <div class="stats">
                         <i class="ti-panel"></i> 
-                        <a href="{{url('/orders')}}">Details</a>
+                        <a href="{{url('/admin/orders')}}">Details</a>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
                     <hr/>
                     <div class="stats">
                         <i class="ti-panel"></i> 
-                        <a href="{{url('/users')}}">Details</a>
+                        <a href="{{url('/admin/users')}}">Details</a>
                     </div>
                 </div>
             </div>
